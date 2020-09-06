@@ -4,9 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
-
-
+from django.http import HttpResponse
 import matplotlib
 import matplotlib.pyplot as plt
 import io
@@ -56,32 +54,23 @@ def logout_request(request):
 
 @login_required
 def appmathView(request):
-        return render(request,'grafica/mategraph.html')
-    # a = int(request.GET["num1"])
-    # b = int(request.GET['num2'])
-    # c= a + b
-
-    # x = np.linspace(-10, 10, 1000)
-    # y = x**2 + 2*x + 4 
-    # figura, ax = plt.subplots()
-    # ax.plot(x, y)
-
-    # buf= io.BytesIO()
-    # figura.savefig(buf, format="png")
-    # buf.seek(0)
-    # string=base64.b64encode(buf.read())
-    # uri= urllib.parse.quote(string)
-    #return render(request,'grafica/mategraph.html')
-    #return render(request,'grafica/resultado.html',{'data':uri})
+    return render(request,'grafica/mategraph.html')
 
 
 def result (request):
-    print('entrando')
-    var1 = int(request.GET['text1'])
-    print (var1)
-    var2 = int(request.GET['text2'])
-    print(var2)
-    c = var2+var1
-    print(c)
-    print('si entro')
-    return render(request, 'grafica/resultado.html',{'resultado':c})
+
+    a = int(request.GET['a'])
+    b = int(request.GET['b'])
+    c = int(request.GET['c'])
+    x = int(request.GET['x'])
+    x = np.linspace(-10, 10, 1000)
+    y = a*(x**2) + b*x + c
+    figura, ax = plt.subplots()
+    ax.plot(x, y)
+
+    buf= io.BytesIO()
+    figura.savefig(buf, format="png")
+    buf.seek(0)
+    string=base64.b64encode(buf.read())
+    uri= urllib.parse.quote(string)
+    return render(request, 'grafica/mategraph.html',{'resultado':uri})

@@ -10,16 +10,21 @@
             <h4>Selecciona la Funcion que necesitas graficar:</h4>
         </div>
         <form action="result">
-          <input type="text" name="text1">
-          <input type="text" name="text2">
+          Variable a :<input type="number" name="a" id="">
+          variable b :<input type="number" name="b" id=""><br>
+          variable c :<input type="number" name="c" required><br>
+          variable X :<input type="number" name="x" required><br>
+          <!-- <input type="text" name="text2"> -->
          <button type="submit">enviar</button>
         </form>
+        <div>
+        </div>
     </div>
     <div class="col">
       <div>
         <h4>Ejemplo</h4>
       </div>
-      <img src="data:image/png;base64,{{data}}" alt="" height="600", width="600">
+      <img src="data:image/png;base64,{{resultado}}" alt="" height="600", width="600">
       </div>
     </div>
 {% endblock %}
