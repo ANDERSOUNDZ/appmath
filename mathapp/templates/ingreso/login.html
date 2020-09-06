@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        
+    </div>
+    <div class="col">
+        <div>
+            <h1>INICIA SESIÓN</h1>
+        </div>
+        <div>
+            <form method="POST" class="uniForm">
+                {% csrf_token %}
+                {% bootstrap_form login_form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div>
+    <h1>Calculadora Gráfica</h1>
+</div>
+<div class="row">
+    <div class="col">
+        <div>
+            <h4>Selecciona la Funcion que necesitas graficar:</h4>
+        </div>
+        <form action="result">
+          <input type="text" name="text1">
+          <input type="text" name="text2">
+         <button type="submit">enviar</button>
+        </form>
+    </div>
+    <div class="col">
+      <div>
+        <h4>Ejemplo</h4>
+      </div>
+      <img src="data:image/png;base64,{{data}}" alt="" height="600", width="600">
+      </div>
+    </div>
+{% endblock %}
