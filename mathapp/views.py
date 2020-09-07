@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 import io
 import urllib, base64
 import numpy as np
-
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 
 # Create your views here.
 def indexView(request):
@@ -62,18 +63,29 @@ def result (request):
     a = int(request.GET['a'])
     b = int(request.GET['b'])
     c = int(request.GET['c'])
-    x = np.linspace(10, -10, 100)
+    # x = np.linspace(10, -10, 100)
+    # y = a*(x**2)+b*x+c
+    # fig = plt.figure()
+    # fig, ax = plt.subplots()
+    # ax.plot(x, y)
+    # ax.spines['left'].set_position('center')
+    # ax.spines['bottom'].set_position('center')
+    # ax.spines['right'].set_color('none')
+    # ax.spines['top'].set_color('none')
+    # ax.xaxis.set_ticks_position('bottom')   
+    # ax.yaxis.set_ticks_position('left')
+
+    #imagen 3d
+    X = np.arange(-5, 5, 0.25)
+    Y = np.arange(-5, 5, 0.25)
+    X, Y = np.meshgrid(X, Y)
+    x = np.sqrt(X**2 + Y**2)
     y = a*(x**2)+b*x+c
-    fig = plt.figure()
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
-    ax.spines['left'].set_position('center')
-    ax.spines['bottom'].set_position('center')
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')   
-    ax.yaxis.set_ticks_position('left')
+
     
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    ax.plot_surface(X, Y, y, rstride=1, cstride=1, cmap=cm.viridis)
 
     print('pasa 2')
     buf= io.BytesIO()
@@ -81,7 +93,8 @@ def result (request):
     buf.seek(0)
     string=base64.b64encode(buf.read())
     uri= urllib.parse.quote(string)
-    return render(request, 'grafica/resultado.html',{'resultado':a,'data':uri})
+    #return render(request, 'grafica/resultado.html',{'resultado':a,'data':uri})
+    return render(request, 'grafica/resultado.html',{'data':uri})
 
     #plt.plot(x,y, 'g')
     #x = int(request.GET['x'])
