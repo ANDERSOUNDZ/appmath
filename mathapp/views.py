@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+
 import matplotlib
 import matplotlib.pyplot as plt
 import io
@@ -56,21 +57,68 @@ def logout_request(request):
 def appmathView(request):
     return render(request,'grafica/mategraph.html')
 
-
 def result (request):
-
+    print('pasa por la funcion')
     a = int(request.GET['a'])
     b = int(request.GET['b'])
     c = int(request.GET['c'])
-    x = int(request.GET['x'])
-    x = np.linspace(-10, 10, 1000)
-    y = a*(x**2) + b*x + c
-    figura, ax = plt.subplots()
+    x = np.linspace(10, -10, 100)
+    y = a*(x**2)+b*x+c
+    fig = plt.figure()
+    fig, ax = plt.subplots()
     ax.plot(x, y)
+    ax.spines['left'].set_position('center')
+    ax.spines['bottom'].set_position('center')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')   
+    ax.yaxis.set_ticks_position('left')
+    
 
+    print('pasa 2')
     buf= io.BytesIO()
-    figura.savefig(buf, format="png")
+    fig.savefig(buf, format="png")
     buf.seek(0)
     string=base64.b64encode(buf.read())
     uri= urllib.parse.quote(string)
-    return render(request, 'grafica/mategraph.html',{'resultado':uri})
+    return render(request, 'grafica/resultado.html',{'resultado':a,'data':uri})
+
+    #plt.plot(x,y, 'g')
+    #x = int(request.GET['x'])
+
+    #crear x y_ y
+    #fig, ax = plt.subplots()
+
+    #ax.plot([x], [y])
+    #como el comportamiento de la linea, y devuelve x negativo , x positivo, Y negativo , y Y positivo
+    #ax.plot([1, 2, -3, 5], [1, -5, 2, 3]) 
+    #rango
+    # x = np.linspace(-10, 10, 1000)
+    # y=2*(x**2) + a*x - 2
+
+    # x = range(-10, 15)
+    # plt.plot(x, [(i) for i in x])
+    # plt.axhline(0, color="black")
+
+    # plt.xlim(-10, 10)
+    # plt.ylim(-10, 10)
+
+
+
+    # b = int(request.GET['b'])
+    # c = int(request.GET['c'])
+    # p = int(request.GET['p'])
+    # x = np.linspace(-5,5,1)
+    # y = a*(x**2)+b*x+c
+
+    #figura = plt.figure()
+    # figura, ax = plt.subplots()
+    # ax.plot(x, y)
+    # ax = figura.add_subplot(1, 1, 1)
+    # ax.spines['left'].set_position('center')
+    # ax.spines['bottom'].set_position('center')
+    # ax.spines['right'].set_color('none')
+    # ax.spines['top'].set_color('none')
+    # ax.xaxis.set_ticks_position('bottom')   
+    # ax.yaxis.set_ticks_position('left')
+    # plt.plot(x,y, 'g')
